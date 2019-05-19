@@ -4,7 +4,7 @@ class Server extends CI_Controller
 {
     function __construct(){
         parent::__construct();
-        $this->db = $this->load->database('haha',true);
+        $this->db = $this->load->database('bedahrumah',true);
         $this->load->library('session');
         // $this->load->library('form_validation');
     }
@@ -173,6 +173,42 @@ class Server extends CI_Controller
         }else{
             redirect('server/dashboard');
         } 
+    }
+
+    function spkRT(){
+        if ($this->session->role_id >= 2) {
+               
+            $qry = <<<EOD
+select *,round((usia + penghasilan + luas_tanah + hak_tanah + bayar_pbb + id_digital + lokal + kondisi_rumah),2) as 'total' from 
+(select id,nama,berkas,
+round(((usia / maxusia) * 3),2) 	as 'usia',
+round(((penghasilan / maxpenghasilan) * 5),2) 	as 'penghasilan',
+round(((luas_tanah / maxluas_tanah) * 4),2) 	as 'luas_tanah',
+round(((hak_tanah / maxhak_tanah) * 7),2) 	as 'hak_tanah',
+round(((bayar_pbb / maxbayar_pbb) * 6),2) 	as 'bayar_pbb',
+round(((id_digital / maxid_digital) * 5),2) 	as 'id_digital',
+round(((lokal / maxlokal) * 4),2) 	as 'lokal',
+round(((kondisi_rumah / maxkondisi_rumah) * 4),2) 	as 'kondisi_rumah' from data_pemohon,
+(SELECT usia as 'Maxusia' FROM data_pemohon order by usia desc limit 1) as SubMaxusia,
+(SELECT penghasilan as 'Maxpenghasilan' FROM data_pemohon order by penghasilan desc limit 1) as SubMaxpenghasilan,
+(SELECT luas_tanah as 'Maxluas_tanah' FROM data_pemohon order by luas_tanah desc limit 1) as SubMaxluas_tanah,
+(SELECT hak_tanah as 'Maxhak_tanah' FROM data_pemohon order by hak_tanah desc limit 1) as SubMaxhak_tanah,
+(SELECT bayar_pbb as 'Maxbayar_pbb' FROM data_pemohon order by bayar_pbb desc limit 1) as SubMaxbayar_pbb,
+(SELECT id_digital as 'Maxid_digital' FROM data_pemohon order by id_digital desc limit 1) as SubMaxid_digital,
+(SELECT lokal as 'Maxlokal' FROM data_pemohon order by lokal desc limit 1) as SubMaxlokal,
+(SELECT kondisi_rumah as 'Maxkondisi_rumah' FROM data_pemohon order by kondisi_rumah desc limit 1) as SubMaxkondisi_rumah) as subsubq
+EOD;
+
+            $hasil = $this->db->query($qry)->result_array();
+            $metadata = ['spk' => $hasil];
+            $data['title'] = "SPK Data RT";
+            $this->load->view('myview/templates_dashboard/header',$data);
+            $this->load->view('myview/templates_dashboard/sidebar');    
+            $this->load->view('myview/spkRT',$metadata);
+            
+        }else{
+            redirect('server/dashboard');
+        }
     }
 
     function kelurahan(){

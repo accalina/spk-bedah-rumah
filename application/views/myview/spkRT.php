@@ -188,104 +188,87 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-            <div class="container">
+           
+          <!-- Content Row -->
+          <div class="row">
 
-                <form class="dropzone" action="<?= base_url('index.php/server/fileupload'); ?>" method="POST" enctype="multipart/form-data">
-                  <div class="form-group">
-                      <label for="usia">Usia :</label>
-                          <select class="form-control" name="usia" id="usia">
-                              <option value="3">20 s/d 30</option>
-                              <option value="7">31 s/d 40</option>
-                              <option value="9">41 s/d 50</option>
-                          </select>
+            <!-- Area Chart -->
+            <div class="col-xl-12 col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Data Penduduk</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Dropdown Header:</div>
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Something else here</a>
                     </div>
-                    <div class="form-group">
-                      <label for="penghasilan">Penghasilan :</label>
-                          <select class="form-control" name="penghasilan" id="penghasilan">
-                              <option value="9">1,5 s/d 2 juta</option>
-                              <option value="7">2,1 s/d 3 juta</option>
-                              <option value="5">3,1 s/d 3,8 juta</option>
-                              <option value="3">lebih dari 3,8 juta</option>
-                          </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="luas_tanah">Luas Tanah :</label>
-                        <select class="form-control" name="luas_tanah" id="luas_tanah">
-                            <option value="9">20 s/d 30 meter</option>
-                            <option value="8">31 s/d 40 meter</option>
-                            <option value="6">41 s/d 50 meter</option>
-                            <option value="3">lebih dari 50 meter</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="haktanah">Hak Milik Tanah :</label><br>
-                        <select class="form-control" name="haktanah" id="haktanah">
-                            <option value="7">Pribadi</option>
-                            <option value="1">Tidak Pribadi</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="pbb">Membayar PBB :</label><br>
-                        <select class="form-control" name="pbb" id="pbb">
-                            <option value="5">Ya</option>
-                            <option value="1">Tidak</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_digital">Mempunyai KTP / KK Digital :</label><br>
-                        <select class="form-control" name="id_digital" id="id_digital">
-                            <option value="5">Ya</option>
-                            <option value="1">Tidak</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="lokal">Tinggal di daerah setempat :</label><br>
-                        <select class="form-control" name="lokal" id="lokal">
-                            <option value="5">Ya</option>
-                            <option value="1">Tidak</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="kondisiRumah">Kondisi Rumah :</label>
-                        <select class="form-control" name="kondisiRumah" id="kondisiRumah">
-                            <option value="9">Rusak Berat</option>
-                            <option value="7">Rusak</option>
-                            <option value="4">Sedang</option>
-                            <option value="1">Normal</option>
-                        </select>
-                    </div>
-                    <div class="form-group">        
-                        <span class="form-group-text">Image File :</span>
-                        <input class="fileuploader active" type="file" name="userfile"><br>
-                    </div>
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="">
+                    <!-- <canvas id="myAreaChart"></canvas> -->
                     
-                    <input class="btn btn-primary" type="submit" value="Send Data">
-                    </div>		
-                </form>
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>Usia</th>
+                          <th>Penghasilan</th>
+                          <th>Luas Tanah</th>
+                          <th>Hak Tanah</th>
+                          <th>PBB</th>
+                          <th>DigiID</th>
+                          <th>Lokal</th>
+                          <th>Kelayakan</th>
+                          <th>Berkas</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <?php foreach ($spk as $key => $row): ?>
+                        <tr>
+                          <td><?= $row['usia'] ?></td>
+                          <td><?= $row['penghasilan'] ?></td>
+                          <td><?= $row['luas_tanah'] ?></td>
+                          <td><?= $row['hak_tanah'] ?></td>
+                          <td><?= $row['bayar_pbb'] ?></td>
+                          <td><?= $row['id_digital'] ?></td>
+                          <td><?= $row['lokal'] ?></td>
+                          <td><?= $row['kondisi_rumah'] ?></td>
+                          <td><?= $row['berkas'] ?></td>
+                        <tr>
+                      <?php endforeach ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-      <!-- End of Main Content -->
-
-        </div>
         <!-- /.container-fluid -->
-      </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-      <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-          <span>Copyright &copy; Claudia Felicia 2019</span>
-          </div>
-      </div>
-      </footer>
-      <!-- End of Footer -->
-
     </div>
-    <!-- End of Content Wrapper -->
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Claudia Felicia 2019</span>
+        </div>
+    </div>
+    </footer>
+    <!-- End of Footer -->
 
   </div>
-  <!-- End of Page Wrapper -->
+  <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
@@ -328,8 +311,12 @@
   <script src="<?= base_url('assets/js/demo/chart-area-demo.js') ?>"></script>
   <script src="<?= base_url('assets/js/demo/chart-pie-demo.js') ?>"></script>
 
-  <!-- Drop Zone -->
-  <script src="<?= base_url('assets/vendor/dropzone/dropzone.js') ?>"></script>
+  <!-- Page level plugins -->
+  <script src="<?= base_url('assets/vendor/datatables/jquery.dataTables.min.js ') ?>"></script>
+  <script src="<?= base_url('assets/vendor/datatables/dataTables.bootstrap4.min.js ') ?>"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="<?= base_url('assets/js/demo/datatables-demo.js ') ?>"></script>
 
 </body>
 
